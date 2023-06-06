@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:13.3-alpine
+    container_name: ${SERVICE}-postgres
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    volumes:
+      - ./postgres:/var/lib/postgresql/data/
+    restart: always
+  adminer:
+    image: adminer:4.8.1-standalone
+    container_name: ${SERVICE}-adminer
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - postgres
+  # cache:
+  #   image: redis:7
+  #   container_name: ${SERVICE}-redis
+  #   restart: always
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - ./redis:/data
