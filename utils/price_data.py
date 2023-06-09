@@ -1,6 +1,7 @@
 import ccxt
 import time
 import pandas as pd
+import yfinance
 
 
 class Exchange:
@@ -12,11 +13,14 @@ class Exchange:
 
     def fetch_ohlcv(self, symbol):
         if self._exchange.has['fetchOHLCV']:
-            markets = self.load_markets()
-            time.sleep(self._exchange.rateLimit / 1000)  # time.sleep wants seconds
-            return self._exchange.fetch_ohlcv(symbol, '1d', limit=500)  # one day
+            time.sleep(3)  # time.sleep wants seconds
+            # one day
+            return self._exchange.fetch_ohlcv(symbol, '1d', limit=500)
+
+    def yf(self):
+        return yfinance.download(tickers="BTC-USD", interval='1d', ignore_tz=True)
 
 
 if __name__ == "__main__":
     ex = Exchange()
-    print(ex.fetch_ohlcv("BTC/USDT"))
+    print(ex.yf())
