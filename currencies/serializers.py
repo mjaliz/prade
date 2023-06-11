@@ -5,7 +5,7 @@ from .models import Currency, CurrencyPrice
 class CurrencySerializer(serializers.ModelSerializer):
     class Meta:
         model = Currency
-        fields = ["symbol", "name"]
+        fields = ["id", "symbol", "name", "created_at"]
 
 
 class CurrencyPriceSerializer(serializers.ModelSerializer):
