@@ -5,5 +5,5 @@ from currencies import urls as currencies_url
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth-api/', include('rest_framework.urls')),
-    path('currency/', include(currencies_url))
+    path('currencies/', include(currencies_url))
 ]

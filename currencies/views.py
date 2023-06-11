@@ -1,4 +1,3 @@
-from django.utils.timezone import make_aware
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,7 +5,6 @@ from rest_framework import permissions
 from .models import Currency, CurrencyPrice
 from .serializers import CurrencySerializer, CurrencyPriceSerializer
 from utils.price_data import Exchange
-import time
 import datetime
 
 ex = Exchange()
@@ -76,3 +74,24 @@ class CurrencyPriceListApiView(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response("ok", status=status.HTTP_200_OK)
+
+
+class CurrencyPriceDetailApiView(APIView):
+
+    def get_object(self, currency_id):
+        try:
+            return CurrencyPrice.objects.filter(currency_id=currency_id)
+        except CurrencyPrice.DoesNotExist:
+            return None
+
+    def get(self, request, currency_id, *args, **kwargs):
+
+        currency_instance = self.get_object(currency_id)
+        if not currency_instance:
+            return Response(
+                {"res": "Object with currency id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = CurrencyPriceSerializer(currency_instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
