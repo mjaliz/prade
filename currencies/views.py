@@ -78,15 +78,15 @@ class CurrencyPriceListApiView(APIView):
 
 class CurrencyPriceDetailApiView(APIView):
 
-    def get_object(self, currency_id):
+    def get_object(self, currency__name):
         try:
-            return CurrencyPrice.objects.filter(currency_id=currency_id)
+            return CurrencyPrice.objects.filter(currency__name=currency__name)
         except CurrencyPrice.DoesNotExist:
             return None
 
-    def get(self, request, currency_id, *args, **kwargs):
+    def get(self, request, currency__name, *args, **kwargs):
 
-        currency_instance = self.get_object(currency_id)
+        currency_instance = self.get_object(currency__name)
         if not currency_instance:
             return Response(
                 {"res": "Object with currency id does not exists"},
