@@ -77,3 +77,19 @@
 ## Product.objects.earliest('unit_price') ---> will sort the product by uint_price and return the cheapest
 
 ## Product.objects.latest('unit_price') ---> will sort the product by unit_price and return the most expensive one
+
+# Limiting results
+
+## Product.objects.all()[page:limit] ---> limiting result by offset of page and limit
+
+# Selecting fields to query:
+
+## Product.objects.values('id', 'title') ---> return just the id and title from product model -> the object returned by values method is not Product instances they are dictionaries
+
+## Product.objects.values('id','title', 'collection\_\_title') ---> selecting related filed from another table, selecting title from collection table
+
+## Product.objects.values_list('id','title', 'collection\_\_title') ---> will return a tuple instead of dictionary
+
+### Select ordered product and sort them by title:
+
+## Product.objects.filter(id\_\_in=OrderItem.objects.values('product_id').distinct()).order_by('title')
