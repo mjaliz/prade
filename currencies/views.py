@@ -88,6 +88,7 @@ class CurrencyPriceListApiView(APIView):
                 currency_last_update = datetime.datetime.now() - datetime.timedelta(10 * 365)
                 if len(currency_price) > 0:
                     currency_last_update = currency_price[0][0]
+                    continue
                 prices = ex.fetch_ohlcv(currency["symbol"])
                 for price in prices:
                     print(price[0], currency_last_update.timestamp()*1000)

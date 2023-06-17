@@ -21,3 +21,12 @@ class CurrencyPrice(models.Model):
     close = models.FloatField(null=False)
     volume = models.FloatField(null=False)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
+
+
+class Strategy(models.Model):
+    name = models.CharField(max_length=250, null=False)
+
+
+class CurrencyStrategy(models.Model):
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
+    strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)
